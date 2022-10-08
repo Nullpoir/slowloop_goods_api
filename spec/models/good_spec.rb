@@ -1,5 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Good, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'Relation' do
+    it { is_expected.to have_many :users }
+  end
 end

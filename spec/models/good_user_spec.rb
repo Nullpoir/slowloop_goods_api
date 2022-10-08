@@ -12,8 +12,8 @@ RSpec.describe GoodUser, type: :model do
         subject { build :good_user }
 
         it do
-          is_expected.to validate_uniqueness_of(:user_id).ignoring_case_sensitivity
-                                                         .scoped_to(:good_id)
+          expect(subject).to validate_uniqueness_of(:user_id).ignoring_case_sensitivity
+                                                             .scoped_to(:good_id)
         end
       end
     end

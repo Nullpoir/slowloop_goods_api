@@ -71,6 +71,7 @@ gem 'aws-sdk-rails', '~> 3'
 gem 'aws-sdk-s3', '~> 1'
 gem 'lockbox'
 gem 'config'
+gem 'factory_bot_rails'
 gem 'draper'
 gem 'pry-rails'
 

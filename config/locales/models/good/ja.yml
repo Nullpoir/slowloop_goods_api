@@ -1,0 +1,20 @@
+ja:
+  activerecord:
+    models:
+      good: グッズ
+    attributes:
+      good:
+        name: 名称
+        target_type: 対象クラス
+        description: 説明
+        isbn: ISBN番号
+        jan: JANコード
+        shopping_url: 購入可能URL
+        released_at: 発売日
+        production_ended_at: 生産終了日
+        created_at: 作成日
+        updated_at: 更新日
+
+
+
+

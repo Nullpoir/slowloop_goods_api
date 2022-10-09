@@ -1,0 +1,33 @@
+{
+	"id": "6fa59ab5-ac19-4db8-b982-9237c9c20688",
+	"name": "slowloop_good_env",
+	"values": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "client",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "access-token",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "uid",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2022-10-09T12:53:03.248Z",
+	"_postman_exported_using": "Postman/10.0.20"
+}

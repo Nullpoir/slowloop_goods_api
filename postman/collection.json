@@ -7,6 +7,59 @@
 	},
 	"item": [
 		{
+			"name": "公開側::V1",
+			"item": [
+				{
+					"name": "Goods一覧API",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/goods",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"goods"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "管理側::Admin",
+			"item": [
+				{
+					"name": "Good一覧API",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "uid",
+								"value": "{{uid}}",
+								"type": "text"
+							},
+							{
+								"key": "client",
+								"value": "{{client}}",
+								"type": "text"
+							},
+							{
+								"key": "access-token",
+								"value": "{{access-token}}",
+								"type": "text"
+							}
+						]
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "ログイン",
 			"event": [
 				{
@@ -42,6 +95,63 @@
 						"api",
 						"auth",
 						"sign_in"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ログアウト",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"client\", pm.response.headers.get('client'));",
+							"pm.environment.set(\"access-token\", pm.response.headers.get('access-token'));",
+							"pm.environment.set(\"uid\", pm.response.headers.get('uid'));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "uid",
+						"value": "{{uid}}",
+						"type": "text"
+					},
+					{
+						"key": "client",
+						"value": "{{client}}",
+						"type": "text"
+					},
+					{
+						"key": "access-token",
+						"value": "{{access-token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"test-1234\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/auth/sign_out",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"sign_out"
 					]
 				}
 			},

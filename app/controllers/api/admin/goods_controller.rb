@@ -6,6 +6,6 @@ class Api::Admin::GoodsController < AdminController
   private
 
   def goods
-    @goods ||= Good.order(id: :asc)
+    @goods ||= Good.order(id: :asc).limit(limit).offset(offset)
   end
 end

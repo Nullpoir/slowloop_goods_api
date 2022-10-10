@@ -32,7 +32,10 @@ class Api::Admin::GoodsController < AdminController
   end
 
   def goods
-    @goods ||= Good.order(id: :asc).limit(limit).offset(offset)
+    @goods ||= Good.ransack(params[:q])
+                   .result 
+                   .order(order_by => direction)
+                   .limit(limit).offset(offset)
   end
 
   def init_good

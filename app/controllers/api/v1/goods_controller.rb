@@ -12,7 +12,10 @@ class Api::V1::GoodsController < ApplicationController
   private
 
   def goods
-    @goods ||= Good.order(id: :asc).limit(limit).offset(offset)
+    @goods ||= Good.ransack(params[:q])
+                   .result 
+                   .order(order_by => direction)
+                   .limit(limit).offset(offset)
   end
 
   def good

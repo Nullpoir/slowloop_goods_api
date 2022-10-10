@@ -12,4 +12,8 @@ class ApplicationController < ActionController::API
   def offset
     @offset = params[:offset].nil? ? 0 : params[:offset]
   end
+
+  def render_success_destroy
+    render json: { success: true}, status: :ok
+  end
 end

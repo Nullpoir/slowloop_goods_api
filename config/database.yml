@@ -18,6 +18,3 @@ production:
   <<: *default
   database: slowloop_goods_production
 
-convert:
-  <<: *default
-  database: slowloop_goods_convert

@@ -10,23 +10,80 @@
 			"name": "公開側::V1",
 			"item": [
 				{
-					"name": "Goods一覧API",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/api/v1/goods",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"goods"
-							]
+					"name": "Goods",
+					"item": [
+						{
+							"name": "Goods一覧API",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/goods?limit=10&offset=0",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"goods"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "offset",
+											"value": "0"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Good詳細API",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "uid",
+										"value": "{{uid}}",
+										"type": "text"
+									},
+									{
+										"key": "client",
+										"value": "{{client}}",
+										"type": "text"
+									},
+									{
+										"key": "access-token",
+										"value": "{{access-token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/v1/goods/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"goods",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				}
 			]
 		},
@@ -34,28 +91,223 @@
 			"name": "管理側::Admin",
 			"item": [
 				{
-					"name": "Good一覧API",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "uid",
-								"value": "{{uid}}",
-								"type": "text"
+					"name": "Goods",
+					"item": [
+						{
+							"name": "Good一覧API",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "uid",
+										"value": "{{uid}}",
+										"type": "text"
+									},
+									{
+										"key": "client",
+										"value": "{{client}}",
+										"type": "text"
+									},
+									{
+										"key": "access-token",
+										"value": "{{access-token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/admin/goods",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"goods"
+									]
+								}
 							},
-							{
-								"key": "client",
-								"value": "{{client}}",
-								"type": "text"
+							"response": []
+						},
+						{
+							"name": "Good新規作成API",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "uid",
+										"value": "{{uid}}",
+										"type": "text"
+									},
+									{
+										"key": "client",
+										"value": "{{client}}",
+										"type": "text"
+									},
+									{
+										"key": "access-token",
+										"value": "{{access-token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"good\": {\n        \"name\": \"シーにゃんマグカップ\",\n        \"description\": \"にゃん\",\n        \"isbn\": null,\n        \"jan\": null\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/admin/goods",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"goods"
+									]
+								}
 							},
-							{
-								"key": "access-token",
-								"value": "{{access-token}}",
-								"type": "text"
-							}
-						]
-					},
-					"response": []
+							"response": []
+						},
+						{
+							"name": "Good詳細API",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "uid",
+										"value": "{{uid}}",
+										"type": "text"
+									},
+									{
+										"key": "client",
+										"value": "{{client}}",
+										"type": "text"
+									},
+									{
+										"key": "access-token",
+										"value": "{{access-token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/admin/goods/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"goods",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Good更新API",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "uid",
+										"value": "{{uid}}",
+										"type": "text"
+									},
+									{
+										"key": "client",
+										"value": "{{client}}",
+										"type": "text"
+									},
+									{
+										"key": "access-token",
+										"value": "{{access-token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"good\": {\n        \"name\": \"シーにゃん懐中電灯\",\n        \"description\": \"にゃん\",\n        \"isbn\": null,\n        \"jan\": null\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/admin/goods/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"goods",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Good削除API",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "uid",
+										"value": "{{uid}}",
+										"type": "text"
+									},
+									{
+										"key": "client",
+										"value": "{{client}}",
+										"type": "text"
+									},
+									{
+										"key": "access-token",
+										"value": "{{access-token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/admin/goods/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"goods",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "4"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		},

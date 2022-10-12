@@ -11,6 +11,7 @@ RSpec.describe "Api::Admin::Goods", type: :request do
 
   describe '#index' do
     subject { get api_admin_goods_path, params: params, headers: request_headers }
+
     let!(:params) do
       {
         limit: nil,
@@ -93,6 +94,62 @@ RSpec.describe "Api::Admin::Goods", type: :request do
             is_expected.to eq 200
             expect(result["goods"].size).to eq created_number
             expect(result["goods"].pluck('id')).to eq Good.order(id: :asc).pluck(:id)
+          end
+        end
+      end
+    end
+  end
+
+  describe '#show' do
+    subject { get api_admin_good_path(id: id), headers: request_headers }
+
+    context '正常系' do
+      let!(:goods) { create_list :good, 10}
+
+      context 'ログインしている時' do
+        let!(:request_headers) { user_logged_in_headers }
+
+        context 'データを指定した場合' do
+          let!(:id) { goods.third.id}
+
+          it '指定のデータが返ってくること' do
+            subject
+
+            is_expected.to eq 200
+            expect(result["good"]["id"]).to eq id
+            expect(result["good"]["name"]).to eq goods.third.name
+          end
+        end
+      end
+
+      context 'ログインしていない時' do
+        let!(:request_headers) { not_logged_in_headers }
+
+        context 'データを指定した場合' do
+          let!(:id) { goods.third.id}
+
+          it '401が返ってくること' do
+            subject
+
+            is_expected.to eq 401
+            expect(result["errors"]).not_to eq nil
+          end
+        end
+      end
+    end
+    context '異常系' do
+      let!(:good) { create :good}
+
+      context 'ログインしている時' do
+        let!(:request_headers) { user_logged_in_headers }
+
+        context '存在しないIDを指定した場合' do
+          let!(:id) { good.id + 1}
+
+          it '404が返ってくること' do
+            subject
+
+            is_expected.to eq 404
           end
         end
       end

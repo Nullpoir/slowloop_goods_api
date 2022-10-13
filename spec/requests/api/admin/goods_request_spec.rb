@@ -88,7 +88,7 @@ RSpec.describe "Api::Admin::Goods", type: :request do
         context 'ソートをする場合に' do
           let!(:created_number) { 10 }
           let!(:goods) { create_list :good, created_number }
-          it '値がブランクの場合はid ascでソートされるること' do
+          it '値がブランクの場合はid ascでソートされること' do
             subject
   
             is_expected.to eq 200
@@ -150,6 +150,221 @@ RSpec.describe "Api::Admin::Goods", type: :request do
             subject
 
             is_expected.to eq 404
+          end
+        end
+      end
+    end
+  end
+
+  describe '#create' do
+    subject { post api_admin_goods_path, params: params.to_json, headers: request_headers }
+    let!(:params) do
+      {
+        good: values
+      }
+    end
+
+    context '正常系' do
+      context 'ログインしている時' do
+        let!(:request_headers) { user_logged_in_headers }
+        
+        context '新規作成をする時に' do
+          let!(:values) do
+            {
+              name: 'テスト',
+              description: 'テストテスト',
+              isbn: '1111',
+              jan: '2222',
+              shopping_url: 'https://example.com',
+              released_at: Time.zone.yesterday,
+              production_ended_at: Time.zone.tomorrow
+            }
+          end
+          it '作成できること' do
+            subject
+
+            is_expected.to eq 200
+            expect(result['good']['name']).to eq values[:name]
+            expect(result['good']['description']).to eq values[:description]
+            expect(result['good']['isbn']).to eq values[:isbn]
+            expect(result['good']['jan']).to eq values[:jan]
+            expect(result['good']['shoppingUrl']).to eq values[:shopping_url]
+          end
+        end
+      end
+      context 'ログインしていない時' do
+        let!(:request_headers) { not_logged_in_headers }
+        
+        context '新規作成をする時に' do
+          let!(:values) do
+            {
+              name: 'テスト',
+              description: 'テストテスト',
+              isbn: '1111',
+              jan: '2222',
+              shopping_url: 'https://example.com',
+              released_at: Time.zone.yesterday,
+              production_ended_at: Time.zone.tomorrow
+            }
+          end
+          it '作成できないこと' do
+            subject
+
+            is_expected.to eq 401
+          end
+        end
+      end
+    end
+  end
+
+  describe '#update' do
+    subject { put api_admin_good_path(id: id), params: params.to_json, headers: request_headers }
+    let!(:params) do
+      {
+        good: values
+      }
+    end
+
+    context '正常系' do
+      let!(:goods) { create_list :good, 10}
+
+      context 'ログインしている時' do
+        let!(:request_headers) { user_logged_in_headers }
+
+        context 'データを指定した場合' do
+          let!(:id) { goods.third.id}
+          let!(:values) do
+            {
+              name: 'テスト',
+              description: 'テストテスト',
+              isbn: '1111',
+              jan: '2222',
+              shopping_url: 'https://example.com',
+              released_at: Time.zone.yesterday,
+              production_ended_at: Time.zone.tomorrow
+            }
+          end
+
+          it '更新できること' do
+            subject
+
+            is_expected.to eq 200
+            expect(result['good']['name']).to eq values[:name]
+            expect(result['good']['description']).to eq values[:description]
+            expect(result['good']['isbn']).to eq values[:isbn]
+            expect(result['good']['jan']).to eq values[:jan]
+            expect(result['good']['shoppingUrl']).to eq values[:shopping_url]
+          end
+        end
+      end
+
+      context 'ログインしていない時' do
+        let!(:request_headers) { not_logged_in_headers }
+        let!(:values) do
+          {
+            name: 'テスト',
+            description: 'テストテスト',
+            isbn: '1111',
+            jan: '2222',
+            shopping_url: 'https://example.com',
+            released_at: Time.zone.yesterday,
+            production_ended_at: Time.zone.tomorrow
+          }
+        end
+
+        context 'データを指定した場合' do
+          let!(:id) { goods.third.id}
+
+          it '401が返ってくること' do
+            subject
+
+            is_expected.to eq 401
+            expect(result["errors"]).not_to eq nil
+          end
+        end
+      end
+    end
+    context '異常系' do
+      let!(:good) { create :good}
+
+      context 'ログインしている時' do
+        let!(:request_headers) { user_logged_in_headers }
+
+        context '存在しないIDを指定した場合' do
+          let!(:id) { good.id + 1}
+          let!(:values) do
+            {
+              name: 'テスト',
+              description: 'テストテスト',
+              isbn: '1111',
+              jan: '2222',
+              shopping_url: 'https://example.com',
+              released_at: Time.zone.yesterday,
+              production_ended_at: Time.zone.tomorrow
+            }
+          end
+
+          it '404が返ってくること' do
+            subject
+
+            is_expected.to eq 404
+          end
+        end
+      end
+    end
+  end
+
+  describe '#delete' do
+    subject { delete api_admin_good_path(id: id), headers: request_headers }
+
+    context '正常系' do
+      let!(:goods) { create_list :good, 10}
+
+      context 'ログインしている時' do
+        let!(:request_headers) { user_logged_in_headers }
+
+        context 'データを指定した場合' do
+          let!(:id) { goods.third.id}
+
+          it '指定のデータが削除されること' do
+            subject
+
+            is_expected.to eq 200
+            expect(Good.find_by(id: id)).to eq nil
+          end
+        end
+      end
+
+      context 'ログインしていない時' do
+        let!(:request_headers) { not_logged_in_headers }
+
+        context 'データを指定した場合' do
+          let!(:id) { goods.third.id}
+
+          it '401が返ってくること' do
+            subject
+
+            is_expected.to eq 401
+            expect(result["errors"]).not_to eq nil
+            expect(Good.find_by(id: id)).not_to eq nil
+          end
+        end
+      end
+    end
+    context '異常系' do
+      let!(:good) { create :good}
+
+      context 'ログインしている時' do
+        let!(:request_headers) { user_logged_in_headers }
+
+        context '存在しないIDを指定した場合' do
+          let!(:id) { good.id + 1}
+
+          it '404が返ってくること' do
+            subject
+
+            is_expected.to eq 404
+            expect(Good.find_by(id: good.id)).not_to eq nil
           end
         end
       end

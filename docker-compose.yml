@@ -25,7 +25,6 @@ x-app: &app
   volumes:
     - .:/app:cached
     - gem-local:/usr/local/bundle
-    - node-local:/app/node_modules
     - /app/tmp
     - ./tmp/letter_opener:/app/tmp/letter_opener
     - type: bind
@@ -55,11 +54,6 @@ services:
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     stdin_open: true
     tty: true
-  yarn:
-    <<: *app
-    depends_on:
-      - web
-    command: yarn watch
   worker:
     <<: *app
     depends_on:
@@ -107,8 +101,6 @@ services:
 
 volumes:
   gem-local:
-    driver: "local"
-  node-local:
     driver: "local"
   db-local:
     driver: "local"

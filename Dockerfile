@@ -1,6 +1,5 @@
 FROM node:16.15.0 as node
 FROM ruby:3.1
-ARG precompileassets
 ENV LANG C.UTF-8
 
 RUN apt-get update

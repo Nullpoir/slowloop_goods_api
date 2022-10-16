@@ -3,8 +3,6 @@ version: "3.7"
 x-app: &app
   build:
     context: .
-    args:
-      precompileassets: 'not'
   depends_on:
     - db
     - kvs

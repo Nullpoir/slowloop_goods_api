@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "3f7f1ff8-7106-4f56-9339-0a01848b2d01",
-		"name": "slowloop_goods",
+		"name": "slowloop_goods_api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "20770464"
 	},

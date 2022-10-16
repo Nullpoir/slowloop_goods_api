@@ -8,13 +8,13 @@ default: &default
 
 development:
   <<: *default
-  database: slowloop_goods_development
+  database: slowloop_goods_api_development
 
 test:
   <<: *default
-  database: slowloop_goods_test
+  database: slowloop_goods_api_test
 
 production:
   <<: *default
-  database: slowloop_goods_production
+  database: slowloop_goods_api_production
 

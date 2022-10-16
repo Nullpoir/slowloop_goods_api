@@ -15,19 +15,3 @@ STOPSIGNAL SIGQUIT
 
 ENTRYPOINT ["./docker-entrypoint.sh"]
 CMD ["nginx", "-g", "daemon off;"]
-
-# ---------------------------------------------------
-
-# Nginx image with basic authentication and assets distribution
-# FROM nginx-base
-
-# ARG BASIC_AUTH_USERNAME
-# ARG BASIC_AUTH_PASSWORD
-
-# RUN if [ -z $BASIC_AUTH_USERNAME ]; then echo >&2 "BASIC_AUTH_USERNAME must be set" && exit 1; fi
-# RUN if [ -z $BASIC_AUTH_PASSWORD ]; then echo >&2 "BASIC_AUTH_PASSWORD must be set" && exit 1; fi
-# RUN apk add --update apache2-utils
-# RUN htpasswd -bBc /etc/nginx/.htpasswd $BASIC_AUTH_USERNAME $BASIC_AUTH_PASSWORD
-
-# RUN rm -f /etc/nginx/conf.d/*.conf
-# COPY frontend-from-nginx-with-auth.conf /etc/nginx/conf.d/frontend-location.conf

@@ -1,4 +1,3 @@
-FROM node:16.15.0 as node
 FROM ruby:3.1
 ENV LANG C.UTF-8
 

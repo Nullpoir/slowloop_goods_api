@@ -9,8 +9,8 @@ x-app: &app
     - minio
   environment:
     DB_HOST: db
-    DB_USER: root
-    DB_PASSWORD: ""
+    DB_USER: postgres
+    DB_PASSWORD: password
     KVS_HOST: kvs
     SSH_AUTH_SOCK: /run/host-services/ssh-auth.sock
     AWS_REGION: ${AWS_REGION}
@@ -31,16 +31,12 @@ x-app: &app
 
 services:
   db:
-    platform: linux/x86_64
-    image: mysql:5.7
-    command: --character-set-server=utf8 --collation-server=utf8_unicode_ci --ft_min_word_len=1 --explicit_defaults_for_timestamp=1
-    ports:
-      - '${HOST_MYSQL_PORT:-3306}:3306'
+    image: postgres:14.5
     environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
     volumes:
-      - db-local:/var/lib/mysql
-      - ./tmp/dump:/tmp/dump
+      - db-local:/var/lib/postgresql/data
   kvs:
     image: redis:6.0
     volumes:

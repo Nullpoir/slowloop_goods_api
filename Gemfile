@@ -5,7 +5,7 @@ ruby "3.1.2"
 
 gem "rails", "~> 7.0.4"
 gem "puma", "~> 5.0"
-gem 'mysql2', '>= 0.5.4'
+gem 'pg', '~> 1.1'
 gem "redis", "~> 4.0"
 gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 gem "bootsnap", require: false

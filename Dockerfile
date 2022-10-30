@@ -1,21 +1,20 @@
-FROM ruby:3.1
+FROM ruby:3.1.2
+ARG RAILS_ENV
+ARG RAILS_MASTER_KEY
+ARG WEB_API_ENDPOINT
 ENV LANG C.UTF-8
+ENV TZ Asia/Tokyo
 
 RUN apt-get update
-RUN apt-get install -y graphviz python python2 fonts-ipafont-gothic ghostscript
+RUN apt-get install -y graphviz
 
-WORKDIR /app
+WORKDIR /opt/slowloop_goods_api
 
-COPY Gemfile Gemfile.lock /app/
-RUN gem update debase-ruby_core_source
-RUN gem install ruby-debug-ide -v '0.7.2'
+COPY Gemfile Gemfile.lock /opt/slowloop_goods_api/
+
 RUN bundle install
 
-COPY . /app
-
-ARG RAILS_MASTER_KEY
-ARG WEB_API_VERSION
-ARG WEB_API_ENDPOINT
+COPY . /opt/slowloop_goods_api
 
 COPY entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh

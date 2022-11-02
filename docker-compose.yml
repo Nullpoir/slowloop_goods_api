@@ -1,8 +1,9 @@
 version: "3.7"
 
-x-app: &app
+x-app: &api-app
   build:
-    context: .
+    context: ./api
+  env_file: ./api/.env
   depends_on:
     - db
     - kvs
@@ -42,14 +43,14 @@ services:
     volumes:
       - kvs-local:/data
   web:
-    <<: *app
+    <<: *api-app
     ports:
       - "3000:3000"
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     stdin_open: true
     tty: true
   worker:
-    <<: *app
+    <<: *api-app
     depends_on:
       - web
     command: bundle exec sidekiq
@@ -80,18 +81,6 @@ services:
       /usr/bin/mc policy set public myminio/$AWS_BUCKET;
       exit 0;
       "
-  nginx:
-    build:
-      context: ./nginx
-      target: nginx-base
-    environment:
-      - NGINX_UPSTREAM=web:3000
-    command: ['nginx-debug', '-g', 'daemon off;']
-    ports:
-      - 8080:80
-      - 81:12345
-    depends_on:
-      - web
 
 volumes:
   gem-local:

@@ -8,13 +8,13 @@ ENV TZ Asia/Tokyo
 RUN apt-get update
 RUN apt-get install -y graphviz
 
-WORKDIR /opt/slowloop_goods_api
+WORKDIR /slowloop_goods/api
 
-COPY Gemfile Gemfile.lock /opt/slowloop_goods_api/
+COPY Gemfile Gemfile.lock /slowloop_goods/api
 
 RUN bundle install
 
-COPY . /opt/slowloop_goods_api
+COPY . /slowloop_goods/api
 
 COPY entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh

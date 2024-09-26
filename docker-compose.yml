@@ -3,7 +3,6 @@ version: "3.7"
 x-app: &api-app
   build:
     context: ./api
-  env_file: ./api/.env
   depends_on:
     - db
     - kvs
@@ -38,6 +37,8 @@ services:
       POSTGRES_PASSWORD: password
     volumes:
       - db-local:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
   kvs:
     image: redis:6.0
     volumes:
